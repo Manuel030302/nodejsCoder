@@ -1,14 +1,35 @@
 import fs from 'fs';
-import crypto from 'crypto';
 
 export default class ProductManager {
   constructor(path) {
     this.products = [];
-    this.productId = 0;
     this.path = path;
+    this.loadProducts();
+  }
+
+  loadProducts() {
+    try {
+      if (fs.existsSync(this.path)) {
+        const data = fs.readFileSync(this.path, 'utf-8');
+        this.products = JSON.parse(data);
+      }
+    } catch (error) {
+      console.log('Error al cargar los productos:', error);
+    }
+  }
+
+  saveProducts() {
+    try {
+      fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2));
+      console.log('Productos guardados en el archivo:', this.path);
+    } catch (error) {
+      console.log('Error al guardar los productos:', error);
+    }
   }
 
   addProduct(title, description, price, thumbnail, code, stock) {
+    this.loadProducts();
+
     // Validar que todos los campos sean obligatorios
     if (!title || !description || !price || !thumbnail || !code || !stock) {
       console.log('Todos los campos son obligatorios');
@@ -23,7 +44,7 @@ export default class ProductManager {
     }
 
     const product = {
-      id: ++this.productId,
+      id: this.products.length + 1,
       title,
       description,
       price,
@@ -33,23 +54,27 @@ export default class ProductManager {
     };
 
     this.products.push(product);
+    this.saveProducts();
     console.log('Producto agregado:', product);
   }
 
   getProducts() {
+    this.loadProducts();
     return this.products;
   }
 
   getProductById(id) {
+    this.loadProducts();
     const product = this.products.find(product => product.id === id);
     if (product) {
       return product;
     } else {
-      console.log('Not found');
+      console.log('No se encontró el producto');
     }
   }
 
   updateProduct(id, updatedFields) {
+    this.loadProducts();
     const productIndex = this.products.findIndex(product => product.id === id);
     if (productIndex === -1) {
       console.log('No existen coincidencias');
@@ -59,11 +84,12 @@ export default class ProductManager {
     const product = this.products[productIndex];
     const updatedProduct = { ...product, ...updatedFields };
     this.products[productIndex] = updatedProduct;
-
+    this.saveProducts();
     console.log('Producto actualizado:', updatedProduct);
   }
 
   deleteProduct(id) {
+    this.loadProducts();
     const productIndex = this.products.findIndex(product => product.id === id);
     if (productIndex === -1) {
       console.log('No existen coincidencias');
@@ -71,30 +97,10 @@ export default class ProductManager {
     }
 
     const deletedProduct = this.products.splice(productIndex, 1)[0];
+    this.saveProducts();
     console.log('Producto eliminado:', deletedProduct);
   }
 }
 
 
 
-updateProduct() {
-    
-}
-
-// Ejemplo
-
-const productManager = new ProductManager();
-console.log('Todos los productos:', productManager.getProducts());
-
-productManager.addProduct('Producto 1', 'Descripción del producto 1', 10.99, 'thumbnail1.jpg', 'P1', 5);
-productManager.addProduct('Producto 2', 'Descripción del producto 2', 19.99, 'thumbnail2.jpg', 'P2', 3);
-
-const allProducts = productManager.getProducts();
-console.log('Todos los productos:', allProducts);
-
-productManager.addProduct('Producto 1', 'Descripción del producto 1', 10.99, 'thumbnail1.jpg', 'P1', 5);
-
-const productById = productManager.getProductById(1);
-console.log('Producto por ID:', productById);
-
-const nonExistingProduct = productManager.getProductById(3);

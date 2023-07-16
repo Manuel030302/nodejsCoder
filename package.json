@@ -1,0 +1,23 @@
+{
+  "name": "backendcoder",
+  "version": "1.0.0",
+  "description": "none",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "none"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Manuel030302/nodejsCoder.git"
+  },
+  "keywords": [
+    "none"
+  ],
+  "author": "Koko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Manuel030302/nodejsCoder/issues"
+  },
+  "homepage": "https://github.com/Manuel030302/nodejsCoder#readme"
+}
