@@ -2,11 +2,11 @@
   "name": "backendcoder",
   "version": "1.0.0",
   "description": "none",
-  "main": "index.js",
+  "main": "./src/app.js",
   "type": "module",
   "scripts": {
     "test": "none",
-    "start": "nodemon app.js"
+    "start": "nodemon ./src/app.js"
   },
   "repository": {
     "type": "git",
