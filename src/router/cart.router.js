@@ -1,7 +1,7 @@
 import express from 'express';
 import CartManager from '../managers/cartManager.js';
 import ProductManager from "../managers/productManager.js";
-import { getDirname } from '../utils.js';
+import getDirname from '../utils.js';
 
 const router = express.Router();
 const cartManager = new CartManager(`${getDirname()}/files/cart.json`);
@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:cid', (req, res) => {
-  const { cid } = req.params;
+  const cid = parseInt(req.params.pid);
   const cart = cartManager.getCartById(cid);
   if (cart) {
     res.json(cart);
@@ -28,7 +28,10 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:cid/product/:pid/:units', (req, res) => {
-  const { cid, pid, units } = req.params;
+  //const { cid, pid, units } = req.params;
+  const cid = parseInt(req.params.cid);
+  const pid = parseInt(req.params.pid);
+  const units = parseInt(req.params.units);
   const product = productManager.getProductById(pid);
   if (!product) {
     res.status(404).json({ message: 'Producto no encontrado' });
@@ -46,7 +49,10 @@ router.put('/:cid/product/:pid/:units', (req, res) => {
 });
 
 router.delete('/:cid/product/:pid/:units', (req, res) => {
-  const { cid, pid, units } = req.params;
+  //const { cid, pid, units } = req.params;
+  const cid = parseInt(req.params.cid);
+  const pid = parseInt(req.params.pid);
+  const units = parseInt(req.params.units);
   const product = productManager.getProductById(pid);
   if (!product) {
     res.status(404).json({ message: 'Producto no encontrado' });
