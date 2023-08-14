@@ -5,7 +5,7 @@ import getDirname from '../utils.js';
 
 const router = express.Router();
 const cartManager = new CartManager(`${getDirname()}/files/cart.json`);
-const productManager = new ProductManager(`${getDirname()}/files/products.json`);
+const productManager = new ProductManager(`${getDirname()}/files/productos.json`);
 
 router.get('/', (req, res) => {
   const carts = cartManager.getCarts();
@@ -23,7 +23,7 @@ router.get('/:cid', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const cartId = cartManager.createCart();
+  const cartId = cartManager.loadCarts();
   res.json({ message: 'Carrito creado', cartId });
 });
 
@@ -59,7 +59,7 @@ router.delete('/:cid/product/:pid/:units', (req, res) => {
     return;
   }
 
-  const deletedUnits = cartManager.deleteFromCart(pid, parseInt(units), cid);
+  const deletedUnits = cartManager.deleteCartItem(pid, units, cid);
   productManager.updateProduct(pid, { stock: product.stock + deletedUnits });
   res.json({ message: `Se eliminaron ${deletedUnits} unidades del producto del carrito` });
 });

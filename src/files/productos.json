@@ -6,7 +6,7 @@
     "price": 5.99,
     "thumbnail": "thumbnail1.jpg",
     "code": "P1",
-    "stock": 40
+    "stock": null
   },
   {
     "id": 3,
