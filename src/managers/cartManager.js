@@ -57,6 +57,11 @@ export default class CartManager {
     console.log('Producto agregado al carrito:', { productId, quantity, cartId });
   }
 
+  getCarts() {
+    this.loadCarts();
+    return this.carts;
+  }
+
   getCartById(cartId) {
     this.loadCarts();
     const cart = this.carts.find(cart => cart.id === cartId);

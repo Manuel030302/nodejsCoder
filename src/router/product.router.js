@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
   const products = {
     productList: productManager.getProducts()
   }
+  console.log(products)
   const productsToSend = {};
 
   if(limit){
@@ -21,10 +22,11 @@ router.get('/', (req, res) => {
       productsToSend.error = `ERROR: Ingrese un parametro valido`;
       res.status(404).json(productsToSend.error)
     }
-  }
 
-  return res.json(productsToSend.productList);
-  //return res.json(products);
+    res.json(productsToSend.productList);
+  } else{
+    return res.json(products);
+  }
 });
 
 router.get('/:pid', (req, res) => {
