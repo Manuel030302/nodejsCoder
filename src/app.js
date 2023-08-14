@@ -1,10 +1,18 @@
-import ProductManager from "./productManager.js";
-
+import ProductManager from "./managers/productManager.js";
+import __dirname from './utils.js';
 import express from 'express';
+
 const app = express();
 const PORT = 8080;
 
-const productManager = new ProductManager("./files/productos.json");
+const productManager = new ProductManager("./src/files/productos.json");
+console.log(productManager)
+
+/* app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter); */
 
 const server = app.listen(PORT, () => {
     console.log(`Server online, listening port: ${server.address().port}`);
@@ -35,7 +43,8 @@ app.get('/products', (req, res) => {
         }
     }
 
-    res.json(productsToSend.productList);
+    return res.json(productsToSend.productList);
+    //return res.json(products);
 })
 
 app.get('/products/:pid', (req, res) => {

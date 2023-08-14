@@ -12,7 +12,9 @@ export default class ProductManager {
       if (fs.existsSync(this.path)) {
         const data = fs.readFileSync(this.path, 'utf-8');
         this.products = JSON.parse(data);
-      }
+      }/* else{
+        console.log(`no existe el path`)
+      } */
     } catch (error) {
       console.log('Error al cargar los productos:', error);
     }
@@ -101,6 +103,4 @@ export default class ProductManager {
     console.log('Producto eliminado:', deletedProduct);
   }
 }
-
-
 
