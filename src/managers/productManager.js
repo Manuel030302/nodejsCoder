@@ -56,6 +56,8 @@ export default class ProductManager {
     this.products.push(product);
     this.saveProducts();
     console.log('Producto agregado:', product);
+
+    return this.products
   }
 
   getProducts() {
@@ -93,12 +95,12 @@ export default class ProductManager {
     const productIndex = this.products.findIndex(product => product.id === id);
     if (productIndex === -1) {
       console.log('No existen coincidencias');
-      return;
     }
 
     const deletedProduct = this.products.splice(productIndex, 1)[0];
     this.saveProducts();
     console.log('Producto eliminado:', deletedProduct);
+    
+    return this.products;
   }
 }
-
