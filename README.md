@@ -31,3 +31,21 @@ Las 2 rutas raíces son `/api/products` y `/api/carts`, por lo que la URI sería
 Se cambió el método UPDATE a PUT a conveniencia para mejor manejabilidad en Postman.
 
 ---
+
+Aquí está el texto transformado a formato Markdown:
+
+# ACTUALIZACIONES
+
+1. Se implementó Handlebars y Socket.io al proyecto (`app.js`).
+2. Se creó el router `views.router.js` para gestionar los productos con Socket.io.
+3. Se modificó y adaptó el archivo `productManager.js` para trabajar con `views.router.js`.
+
+**NOTA**: Aún funciona con Postman para agregar y borrar elementos. Esto funciona mediante la ruta `/view`.
+
+Para la ruta `/view` existen los siguientes métodos:
+
+- `GET /view`: Muestra todos los elementos.
+- `POST /view`: Crea un producto mediante el body. Ingresar el nuevo producto llenando todos los campos en formato JSON.
+- `DELETE /view/:id`: Quita un producto.
+
+Espero que esto sea de ayuda. ¿Hay algo más en lo que pueda ayudarte? 😊
