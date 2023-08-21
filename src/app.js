@@ -20,7 +20,7 @@ app.set('view engine', 'handlebars');
 
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
-app.use('/', viewsRouter);
+app.use('/view', viewsRouter);
 
 const server = app.listen(PORT, () => {
     console.log(`Server online, listening port: ${server.address().port}`);
@@ -35,10 +35,10 @@ server.on("error", (error) => console.log(`ERROR en el servidor: ${error}`));
 io.on ('connection', socket =>{
     console.log('Nuevo usuario conectado');
 
-    socket.on('message', data => {
+    /* socket.on('message', data => {
         messages.push(data);
         io.emit('messageLogs', messages)
-    })
+    }) */
 })
 
 //module.exports = io;
