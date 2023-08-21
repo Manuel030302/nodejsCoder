@@ -1,7 +1,10 @@
+import express from 'express';
 import CartManager from '../managers/cartManager.js';
 import ProductManager from "../managers/productManager.js";
 import getDirname from '../utils.js';
 import io from '../app.js';
+// const io = require('../app.js');
+
 
 const router = express.Router();
 const cartManager = new CartManager(`${getDirname()}/files/cart.json`);
@@ -75,7 +78,7 @@ router.get('/realtimeproducts', (req, res) => {
   
 //////////////////////////////////////////////////////////////////////////
 
-app.post('/products', (req, res) => {
+router.post('/products', (req, res) => {
   // Agregar lógica para crear un nuevo producto aquí
     const { title, description, price, thumbnail, code, stock } = req.body;
     const products = productManager.addProduct(title, description, price, thumbnail, code, stock);
@@ -88,7 +91,7 @@ app.post('/products', (req, res) => {
     //res.send('Producto creado');
 });
 
-app.delete('/products/:id', (req, res) => {
+router.delete('/products/:id', (req, res) => {
   // Agregar lógica para eliminar un producto aquí
     const id = parseInt(req.params.id);
     const products = productManager.deleteProduct(id);

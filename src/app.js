@@ -41,7 +41,9 @@ io.on ('connection', socket =>{
     })
 })
 
-module.exports = io;
+//module.exports = io;
+
+export default io;
 
 /*
 socket.on ('authenticated', data =>{
