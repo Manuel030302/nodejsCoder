@@ -32,8 +32,6 @@ Se cambió el método UPDATE a PUT a conveniencia para mejor manejabilidad en Po
 
 ---
 
-Aquí está el texto transformado a formato Markdown:
-
 # ACTUALIZACIONES
 
 1. Se implementó Handlebars y Socket.io al proyecto (`app.js`).
@@ -48,4 +46,16 @@ Para la ruta `/view` existen los siguientes métodos:
 - `POST /view`: Crea un producto mediante el body. Ingresar el nuevo producto llenando todos los campos en formato JSON.
 - `DELETE /view/:id`: Quita un producto.
 
-Espero que esto sea de ayuda. ¿Hay algo más en lo que pueda ayudarte? 😊
+---
+
+# ACTUALIZACIONES 2
+
+Se adaptó la aplicación para cambiar la persistencia de archivo de 'fileSystem' a 'MongoDB'.
+
+1. Se modificó la estructura general del proyecto.
+2. Se separó el uso del 'fileSystem' del 'mongoose'.
+3. Se crearon nuevos apartados router.
+4. Se implementó la carpeta dao para separar los managers y los modelos de 'mongoose' de 'fileSystem'.
+
+> Nota: Las rutas siguen siendo las mismas.
+> Nota: No se eliminó el 'fileSystem'.
