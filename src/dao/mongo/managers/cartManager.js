@@ -1,6 +1,6 @@
 import cartModel from "../models/carts.js";
 
-export default class CartManager {
+class CartManager {
   getCarts(params={}) {
     return cartModel.find(params).lean();
   }
@@ -72,30 +72,6 @@ export default class CartManager {
     }
     
     cart.save();
-  }
-}
-
-
-class CartManager {
-
-  getCarts(params) {
-    return cartModel.find(params).lean();
-  }
-
-  getCartById(params) {
-    return cartModel.findOne(params).lean();
-  }
-
-  addToCart(cart) {
-    return cartModel.create(cart);
-  }
-
-  updateCartItem(id, cart) {
-    return cartModel.updateOne({ _id: id }, { $set: cart });
-  }
-
-  deleteCartItem(id) {
-    return cartModel.deleteOne({ _id: id });
   }
 }
 
