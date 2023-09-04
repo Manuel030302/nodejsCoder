@@ -20,7 +20,7 @@ router.get('/',async(req,res)=>{
     }
 
   } else{
-    const products = await productManager.getProducts({},limitInt);
+    const products = await productManager.getProducts();
     res.render('realTimeProducts', { products });
     //res.send({status:"success",payload:products});
   }

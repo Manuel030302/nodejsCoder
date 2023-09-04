@@ -1,12 +1,16 @@
 import cartModel from "../models/carts.js";
 
 class CartManager {
+  createEmptyCart() {
+    return cartModel.create({ items: [] });
+  }
+
   getCarts(params={}) {
     return cartModel.find(params).lean();
   }
 
   getCartById(params) {
-    return cartModel.findOne(params);
+    return cartModel.findOne(params).lean();
   }
 
   addToCart(productId='', quantity='', cartId='') {

@@ -1,5 +1,5 @@
 import express from 'express';
-import ProductManager from '../dao/mongo/managers/productManager.js';
+import ProductManager from '../../dao/mongo/managers/productManager.js';
 import uploader from '../../services/uploadService.js';
 
 const router = express.Router();
@@ -19,7 +19,7 @@ router.get('/', async(req, res) => {
     }
 
   } else{
-    const products = await productManager.getProducts({},limitInt);
+    const products = await productManager.getProducts();
     res.send({status:"success",payload:products});
   }
 });

@@ -2,9 +2,12 @@ import express from 'express';
 import handlebars from 'express-handlebars';
 import mongoose from 'mongoose';
 import { Server } from 'socket.io';
-import productsRouter from './router/fileSystem/product.router.js';
+/* import productsRouter from './router/fileSystem/product.router.js';
 import cartsRouter from './router/fileSystem/cart.router.js';
-import viewsRouter from './router/fileSystem/views.router.js'
+import viewsRouter from './router/fileSystem/views.router.js' */
+import productsRouter from './router/mongo/product.router.js'
+import cartsRouter from './router/mongo/cart.router.js'
+import viewsRouter from './router/mongo/views.router.js'
 import getDirname from './utils.js';
 
 

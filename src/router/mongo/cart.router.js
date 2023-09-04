@@ -1,7 +1,6 @@
 import express from 'express';
 import CartManager from '../../dao/mongo/managers/cartManager.js';
 import ProductManager from '../../dao/mongo/managers/productManager.js';
-import uploader from '../../services/uploadService.js';
 
 const router = express.Router();
 const cartManager = new CartManager();
@@ -23,9 +22,9 @@ router.get('/:cid', async(req, res) => {
   }
 });
 
-router.post('/',async(req, res) => {
-  const result = await cartManager.addToCart();
-  res.send({status:"success",payload:result._id});
+router.post('/', async(req, res) => {
+  const result = await cartManager.createEmptyCart();
+  res.send({status:"success",payload:result});
 });
 
 router.put('/:cid/product/:pid/:units', async(req, res) => {
