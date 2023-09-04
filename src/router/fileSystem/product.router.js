@@ -1,12 +1,13 @@
 import express from 'express';
-import ProductManager from '../managers/productManager.js';
-import getDirname from '../utils.js';
+import ProductManager from '../../dao/fileSystem/managers/productManager.js';
+import getDirname from '../../utils.js';
 
 const router = express.Router();
 const productManager = new ProductManager(`${getDirname()}/files/productos.json`);
 
 router.get('/', (req, res) => {
-  const limit = req.query.limit;
+
+  res.send({status:"success",payload:videogames})
   const products = {
     productList: productManager.getProducts()
   }

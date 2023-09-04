@@ -1,8 +1,8 @@
 import express from 'express';
-import CartManager from '../managers/cartManager.js';
-import ProductManager from "../managers/productManager.js";
-import getDirname from '../utils.js';
-import io from '../app.js';
+import CartManager from '../../dao/fileSystem/managers/cartManager.js';
+import ProductManager from "../../dao/fileSystem/managers/productManager.js";
+import getDirname from '../../utils.js';
+import io from '../../app.js';
 // const io = require('../app.js');
 
 
@@ -82,7 +82,7 @@ router.post('/products', (req, res) => {
   // Agregar lógica para crear un nuevo producto aquí
     const { title, description, price, thumbnail, code, stock } = req.body;
     const products = productManager.addProduct(title, description, price, thumbnail, code, stock);
-    res.json({ message: 'Producto agregado' });
+    //res.json({ message: 'Producto agregado' });
   
   // Actualiza la lista de productos y emite un evento a través de Socket.io
     //products.push(newProduct);
@@ -95,7 +95,7 @@ router.delete('/products/:id', (req, res) => {
   // Agregar lógica para eliminar un producto aquí
     const id = parseInt(req.params.id);
     const products = productManager.deleteProduct(id);
-    res.json({ message: 'Producto eliminado' });
+    //res.json({ message: 'Producto eliminado' });
   
   // Actualiza la lista de productos y emite un evento a través de Socket.io
     //products = products.filter(product => product.id !== req.params.id);

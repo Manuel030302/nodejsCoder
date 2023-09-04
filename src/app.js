@@ -1,14 +1,23 @@
-import productsRouter from './router/product.router.js';
-import cartsRouter from './router/cart.router.js';
-import viewsRouter from './router/views.router.js'
-import getDirname from './utils.js';
 import express from 'express';
 import handlebars from 'express-handlebars';
+import mongoose from 'mongoose';
 import { Server } from 'socket.io';
+import productsRouter from './router/fileSystem/product.router.js';
+import cartsRouter from './router/fileSystem/cart.router.js';
+import viewsRouter from './router/fileSystem/views.router.js'
+import getDirname from './utils.js';
+
 
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
+const server = app.listen(PORT, () => {
+    console.log(`Server online, listening port: ${server.address().port}`);
+})
+server.on("error", (error) => console.log(`ERROR en el servidor: ${error}`));
+const connection = mongoose.connect('mongodb+srv://koko:Leftover11@cluster0.j1gnl7h.mongodb.net/ecommerce?retryWrites=true&w=majority')
+
+app.use(express.static(`${getDirname()}/public`))
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -16,20 +25,13 @@ app.engine('handlebars', handlebars.engine());
 app.set('views', `${getDirname()}/views`);
 app.set('view engine', 'handlebars');
 
-//app.use('/', viewsRouter)
-
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/view', viewsRouter);
 
-const server = app.listen(PORT, () => {
-    console.log(`Server online, listening port: ${server.address().port}`);
-})
-
 const io = new Server(server);
 
-server.on("error", (error) => console.log(`ERROR en el servidor: ${error}`));
-
+//////////////////////////////////////////////////////////////////////////////
 //const messages = [];
 
 io.on ('connection', socket =>{

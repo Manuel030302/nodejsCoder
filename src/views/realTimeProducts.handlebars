@@ -8,7 +8,7 @@
   {{#each products}}
     <li>
       <h2>{{this.title}}</h2>
-      <p>ID: {{this.id}}</p>
+      <p>ID: {{this._id}}</p>
       <p>Descripción: {{this.description}}</p>
       <p>Precio: {{this.price}}</p>
       <img src="{{this.thumbnail}}" alt="{{this.title}}">
@@ -29,7 +29,7 @@
       const li = document.createElement('li');
       li.innerHTML = `
         <h2>${product.title}</h2>
-        <p>ID: ${product.id}</p>
+        <p>ID: ${product._id}</p>
         <p>Descripción: ${product.description}</p>
         <p>Precio: ${product.price}</p>
         <img src="${product.thumbnail}" alt="${product.title}">

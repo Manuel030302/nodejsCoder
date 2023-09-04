@@ -1,7 +1,7 @@
 import express from 'express';
-import CartManager from '../managers/cartManager.js';
-import ProductManager from "../managers/productManager.js";
-import getDirname from '../utils.js';
+import CartManager from '../../dao/fileSystem/managers/cartManager.js';
+import ProductManager from "../../dao/fileSystem/managers/productManager.js";
+import getDirname from '../../utils.js';
 
 const router = express.Router();
 const cartManager = new CartManager(`${getDirname()}/files/cart.json`);
