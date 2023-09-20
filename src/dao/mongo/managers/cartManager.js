@@ -6,26 +6,28 @@ class CartManager {
   }
 
   getCarts(params={}) {
-    return cartModel.find(params).lean();
+    return cartModel.find(params).lean().populate('items.item');
   }
 
-  getCartById(params) {
-    return cartModel.findOne(params).lean();
+  getCartById(cartId) {
+    return cartModel.findOne({ _id: cartId }).lean().populate('items.item');
   }
 
   addToCart(productId='', quantity='', cartId='') {
-    if (!productId || !quantity || !cartId) {
+    if (!productId || !cartId) {
       console.log('Todos los campos son obligatorios');
       return;
     }
 
     let cart = cartModel.findOne({ _id: cartId });
+    
     if (!cart) {
       cart = cartModel.create({ items: [] });
     }
 
     const existingItem = cart.items.find(item => item._id === productId);
-    if (existingItem) {
+
+    if(existingItem) {
       existingItem.quantity += quantity;
     } else {
       const item = { productId, quantity };
@@ -36,46 +38,20 @@ class CartManager {
     console.log('Producto agregado al carrito:', { productId, quantity, cartId });
   }
 
-  updateCartItem(productId, quantity, cartId) {
-    const cart = cartModel.findOne({ _id: cartId });
-    if (!cart) {
-      console.log('No se encontró el carrito');
-      return;
-    }
-
-    const item = cart.items.find(item => item._id === productId);
-    if (item) {
-      console.log('No existen coincidencias');
-      return;
-    }
-
-    item.quantity = quantity;
-    cart.save()
-    console.log('Producto actualizado en el carrito:', item);
+  updateCartItem(cartId, products = []) {
+    return cartModel.updateOne({ _id: cartId }, { $set: {items: products} })
   }
 
-  deleteCartItem(productId, quantity, cartId) {
-    const cart = cartModel.findOne({ _id: cartId });
-    if (!cart) {
-      console.log('No se encontró el carrito');
-      return;
-    }
+  updateItemUnits(cartId = '', productId = '', productUnits = 1) {
+    return cartModel.updateOne({ _id: cartId, 'items.item': productId }, { $set: { 'items.$.units': productUnits } })
+  }
 
-    const item = cart.items.find(item => item._id === productId);
-    if (item) {
-      console.log('No existen coincidencias');
-      return;
-    }
+  deleteCart(cartId) {
+    return cartModel.updateOne({ _id: cartId },{ $set: { items: [] } })
+  }
 
-    if (item.quantity > quantity) {
-      item.quantity -= quantity;
-      console.log(`Se eliminaron ${quantity} unidades del producto del carrito`);
-    } else {
-      const deletedItem = cart.items.splice(itemIndex, 1)[0];
-      console.log('Producto eliminado del carrito:', deletedItem);
-    }
-    
-    cart.save();
+  deleteCartItem(cartId, productId) {
+    return cartModel.updateOne({ _id: cartId },{ $pull: { items: { item: productId } } })
   }
 }
 

@@ -2,11 +2,19 @@ import mongoose from 'mongoose';
 
 const collection = "carts";
 
+const cartsSubSchema = new mongoose.Schema({
+    item: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'products'
+    },
+    units: {
+        type: Number,
+        default: 1
+    },
+}, {_id:false});
+
 const schema = new mongoose.Schema({
-    items:{
-        type:Array,
-        default:[]
-    }
+    items:[cartsSubSchema],
     
 },{timestamps:true})
 

@@ -13,14 +13,14 @@ router.get('/', async(req, res) => {
 
     if(!isNaN(limitInt) && limitInt > 0){
       const products = await productManager.getProducts({},limitInt);
-      res.send({status:"success",payload:products});
+      res.send({status:"success", payload:products});
     }else{
-      res.status(400).send({ error: `ERROR: Ingrese un parametro valido` });
+      res.status(400).send({status: 'error', error: `Invalid query`});
     }
 
   } else{
     const products = await productManager.getProducts();
-    res.send({status:"success",payload:products});
+    res.send({status:"success", payload:products});
   }
 });
 

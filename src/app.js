@@ -8,7 +8,10 @@ import viewsRouter from './router/fileSystem/views.router.js' */
 import productsRouter from './router/mongo/product.router.js'
 import cartsRouter from './router/mongo/cart.router.js'
 import viewsRouter from './router/mongo/views.router.js'
+import sessionsRouter from './router/mongo/sessions.router.js'
 import getDirname from './utils.js';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 
 const app = express();
@@ -19,6 +22,16 @@ const server = app.listen(PORT, () => {
 })
 server.on("error", (error) => console.log(`ERROR en el servidor: ${error}`));
 const connection = mongoose.connect('mongodb+srv://koko:Leftover11@cluster0.j1gnl7h.mongodb.net/ecommerce?retryWrites=true&w=majority')
+
+app.use(session({
+    store:MongoStore.create({
+        mongoUrl:'mongodb+srv://koko:Leftover11@cluster0.j1gnl7h.mongodb.net/ecommerce?retryWrites=true&w=majority',
+        ttl:3600
+    }),
+    resave:false,
+    saveUninitialized:false,
+    secret:'papa'
+}))
 
 app.use(express.static(`${getDirname()}/public`))
 app.use(express.json());
@@ -31,6 +44,7 @@ app.set('view engine', 'handlebars');
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/view', viewsRouter);
+app.use('/api/sessions', sessionsRouter);
 
 const io = new Server(server);
 

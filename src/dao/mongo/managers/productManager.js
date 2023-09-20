@@ -2,8 +2,10 @@ import productModel from "../models/products.js";
 
 class ProductManager {
 
-  getProducts(params={},limit=30) {
-    return productModel.find(params).limit(limit).lean();
+  getProducts(limit=10,page=1) {
+    //return productModel.find(params).limit(limit).lean();
+    const products = productModel.paginate({},{page:page,limit:limit,lean:true});
+    return products;
   }
 
   getProductById(params) {

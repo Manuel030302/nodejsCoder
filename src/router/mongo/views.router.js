@@ -1,30 +1,52 @@
 import express from "express";
 import ProductManager from "../../dao/mongo/managers/productManager.js";
+import CartManager from "../../dao/mongo/managers/cartManager.js";
+//import productModel from "../../dao/mongo/models/products.js";
 import io from "../../app.js"
 
 const router = express.Router();
 const productManager = new ProductManager();
+const cartManager = new CartManager();
 
 router.get('/',async(req,res)=>{
+
+  if(!req.session.user){
+    //Si ya murió la sesión, redirige al login
+    return res.redirect('/login');
+  }
+  //res.render('Profile',{user:req.session.user})
+
+  const {page} = req.query;
   const limit = req.query.limit;
 
-  if(limit){
-    const limitInt = parseInt(limit);
+  const paginationResult = await productManager.getProducts(limit,page);
 
-    if(!isNaN(limitInt) && limitInt > 0){
-      const products = await productManager.getProducts({},limitInt);
-      res.render('realTimeProducts', { products });
-      //res.send({status:"success",payload:products});
-    }else{
-      res.status(400).send({ error: `ERROR: Ingrese un parametro valido` });
-    }
+  console.log(paginationResult)
+  const products = paginationResult.docs;
+  const currentPage = paginationResult.page;
+  const {hasPrevPage, hasNextPage, prevPage, nextPage, totalPages} = paginationResult;
 
-  } else{
-    const products = await productManager.getProducts();
-    res.render('realTimeProducts', { products });
-    //res.send({status:"success",payload:products});
-  }
+  const prevLink = hasPrevPage ? `/view?page=${currentPage - 1}` : null;
+  const nextLink = hasNextPage ? `/view?page=${currentPage + 1}` : null;
+
+  res.render('realTimeProducts', {
+    //stautus,
+    products,
+    totalPages,
+    page: currentPage,
+    hasPrevPage,
+    hasNextPage,
+    prevPage,
+    nextPage
+  });
 })
+
+router.get('/carts/:cid', async(req, res) => {
+  const {cid} = req.params;
+  const cartFetched = await cartManager.getCartById(cid);
+
+  res.render('cartView', {cartFetched})
+});
 
 router.post('/products', async(req, res) => {
   const {
@@ -55,11 +77,29 @@ router.post('/products', async(req, res) => {
   //res.send({status:"success",payload:result._id});
 });
 
-router.delete('/:pid', async(req, res) => {
+router.delete('/products/:pid', async(req, res) => {
   const pid = req.params.pid;
   const result = await productManager.deleteProduct(pid);
   io.emit('update products', result);
   //res.send({status:"success",message:"Product Deleted"})
 });
+
+///////////////////////////////////////////////////////////////////////////////
+
+/* router.get('/',async(req,res)=>{
+  if(!req.session.user){
+      //Si ya murió la sesión, redirige al login
+      return res.redirect('/login');
+  }
+  res.render('Profile',{user:req.session.user})
+}) */
+
+router.get('/register',async(req,res)=>{
+  res.render('register')
+})
+
+router.get('/login',async(req,res)=>{
+  res.render('login')
+})
 
 export default router;
